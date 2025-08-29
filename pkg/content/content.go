@@ -2,8 +2,9 @@ package content
 
 import (
 	"fmt"
-	"gossrng/configs"
 	"os"
+
+	"github.com/e-kucheriavyi/gossrng/configs"
 )
 
 func ReadArticle(urlPath string) ([]byte, error) {

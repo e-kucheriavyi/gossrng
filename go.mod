@@ -1,4 +1,4 @@
-module gossrng
+module github.com/e-kucheriavyi/gossrng
 
 go 1.24.6
 

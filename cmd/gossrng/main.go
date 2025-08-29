@@ -2,12 +2,14 @@ package main
 
 import (
 	"fmt"
-	"gossrng/configs"
-	"gossrng/pkg/page"
-	"gossrng/pkg/sitemap"
-	"gossrng/pkg/static"
 	"log"
 	"net/http"
+
+	"github.com/e-kucheriavyi/gossrng/configs"
+	"github.com/e-kucheriavyi/gossrng/pkg/articles"
+	"github.com/e-kucheriavyi/gossrng/pkg/page"
+	"github.com/e-kucheriavyi/gossrng/pkg/sitemap"
+	"github.com/e-kucheriavyi/gossrng/pkg/static"
 )
 
 func main() {
@@ -15,8 +17,8 @@ func main() {
 
 	sitemap.ServeSitemap()
 	static.ServeStatic()
-
 	page.ServePages()
+	articles.ServeArticlesList()
 
 	err := http.ListenAndServe(configs.Host, nil)
 

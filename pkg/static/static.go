@@ -1,8 +1,9 @@
 package static
 
 import (
-	"gossrng/configs"
 	"net/http"
+
+	"github.com/e-kucheriavyi/gossrng/configs"
 )
 
 func ServeStatic() {

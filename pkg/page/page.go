@@ -3,11 +3,13 @@ package page
 import (
 	"errors"
 	"fmt"
-	"gossrng/configs"
-	"gossrng/pkg/mdparcer"
+	"maps"
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/e-kucheriavyi/gossrng/configs"
+	"github.com/e-kucheriavyi/gossrng/pkg/mdparcer"
 )
 
 type PageFile struct {
@@ -45,8 +47,6 @@ func PreparePage(path string) (PageResponse, error) {
 		return PreparePage("/500")
 	}
 
-	html := mdparcer.MdToHTML(f.Content)
-
 	template, err := ReadTemplate()
 
 	if err != nil {
@@ -54,13 +54,7 @@ func PreparePage(path string) (PageResponse, error) {
 		return PreparePage("/500")
 	}
 
-	text := template
-
-	for key, value := range f.Meta {
-		text = strings.Replace(text, "%"+key+"%", value, 1)
-	}
-
-	text = strings.Replace(text, "%CONTENT%", string(html), 1)
+	text := FormatTemplate(template, f)
 
 	code := 200
 
@@ -77,6 +71,19 @@ func PreparePage(path string) (PageResponse, error) {
 		Content: []byte(text),
 		Code:    code,
 	}, nil
+}
+
+func FormatTemplate(tmplt string, f PageFile) string {
+	text := tmplt
+
+	for key, value := range f.Meta {
+		text = strings.Replace(text, "%"+key+"%", value, 1)
+	}
+
+	html := mdparcer.MdToHTML(f.Content)
+	text = strings.Replace(text, "%CONTENT%", string(html), 1)
+
+	return text
 }
 
 func ReadPageFile(urlPath string) (PageFile, error) {
@@ -105,13 +112,21 @@ func ReadPageFile(urlPath string) (PageFile, error) {
 	return ParsePageInfo(f)
 }
 
-func ParsePageInfo(f []byte) (PageFile, error) {
+func NewMetaMap(params map[string]string) map[string]string {
 	meta := map[string]string{
 		"title":       configs.FallbackTitle,
 		"description": configs.FallbackDescription,
 		"keywords":    configs.FallbackKeywords,
 		"date":        "",
 	}
+
+	maps.Copy(meta, params)
+
+	return meta
+}
+
+func ParsePageInfo(f []byte) (PageFile, error) {
+	meta := NewMetaMap(nil)
 
 	text := string(f)
 
