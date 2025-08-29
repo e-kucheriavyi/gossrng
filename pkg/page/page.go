@@ -1,10 +1,10 @@
 package page
 
 import (
-	"cserver/configs"
-	"cserver/pkg/mdparcer"
 	"errors"
 	"fmt"
+	"gossrng/configs"
+	"gossrng/pkg/mdparcer"
 	"net/http"
 	"os"
 	"strings"

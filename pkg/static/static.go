@@ -1,7 +1,7 @@
 package static
 
 import (
-	"cserver/configs"
+	"gossrng/configs"
 	"net/http"
 )
 

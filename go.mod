@@ -1,4 +1,4 @@
-module cserver
+module gossrng
 
 go 1.24.6
 

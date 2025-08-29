@@ -1,11 +1,11 @@
 package main
 
 import (
-	"cserver/configs"
-	"cserver/pkg/page"
-	"cserver/pkg/sitemap"
-	"cserver/pkg/static"
 	"fmt"
+	"gossrng/configs"
+	"gossrng/pkg/page"
+	"gossrng/pkg/sitemap"
+	"gossrng/pkg/static"
 	"log"
 	"net/http"
 )

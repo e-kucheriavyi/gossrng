@@ -1,8 +1,8 @@
 package content
 
 import (
-	"cserver/configs"
 	"fmt"
+	"gossrng/configs"
 	"os"
 )
 
