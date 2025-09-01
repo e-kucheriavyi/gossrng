@@ -1,6 +1,6 @@
 # go ssr and ssg (gossrng)
 
-Simple app to generate and serve static content.
+Simple app to generate and serve static content. More info in [this article (ru)](https://kucheriavyi.ru/go/kak-ya-napisal-blog-na-go/).
 
 ## Installation
 
@@ -23,5 +23,6 @@ Build it with `go run ./cmd/gossrng/main.go export`. Your static site will be wr
 
 ## Credits
 
-Evgenii Kucheriavyi
+[Evgenii Kucheriavyi](https://t.me/frontend_director)
 
+Support on [boosty](https://boosty.to/kucheriavyi) or [patreon](https://patreon.com/kucheriavyi).
