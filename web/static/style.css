@@ -76,7 +76,7 @@ pre:has(> code) {
 	border-radius: 0.5rem;
 }
 
-p code {
+p code, h1 code, h2 code, h3 code {
 	background-color: var(--bg-light);
 	padding: 0.2rem 0.5rem;
 	border-radius: 0.5rem;

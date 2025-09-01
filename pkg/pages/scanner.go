@@ -80,11 +80,10 @@ func ScanAllFilepaths(root string) ([]string, error) {
 	}
 
 	for _, entry := range entries {
+		if entry.Name()[0] == '.' {
+			continue
+		}
 		if entry.IsDir() {
-			if entry.Name()[0] == '.' {
-				continue
-			}
-
 			var p, err = ScanAllFilepaths(root + "/" + entry.Name())
 
 			if err != nil {
