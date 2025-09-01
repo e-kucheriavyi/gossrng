@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/e-kucheriavyi/gossrng/configs"
 	"github.com/e-kucheriavyi/gossrng/pkg/export"
@@ -50,6 +51,8 @@ func serve() {
 }
 
 func exportSite() {
+	t0 := time.Now()
+
 	fmt.Println("exporting")
 
 	err := export.Export()
@@ -59,5 +62,5 @@ func exportSite() {
 		return
 	}
 
-	fmt.Println("done")
+	fmt.Println("done in", time.Since(t0))
 }

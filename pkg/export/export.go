@@ -87,8 +87,6 @@ func exportPages() error {
 			return err
 		}
 
-		fmt.Println(page.Route, page.Filepath)
-
 		formatted := pages.FormatTemplate(tmp, page)
 
 		newPath := strings.Replace(page.Filepath, configs.ContentDirectory, distPath, 1)
@@ -100,7 +98,7 @@ func exportPages() error {
 
 		os.MkdirAll(dirPath, 0777)
 
-		err = os.WriteFile(newPath, []byte(formatted), 0777)
+		err = os.WriteFile(newPath, []byte(formatted), 0666)
 
 		if err != nil {
 			return err
@@ -119,5 +117,5 @@ func exportPagesList() error {
 		return err
 	}
 
-	return os.WriteFile(distPath+"/articles.html", []byte(result), 0777)
+	return os.WriteFile(distPath+"/articles.html", []byte(result), 0666)
 }
