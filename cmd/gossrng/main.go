@@ -6,8 +6,7 @@ import (
 	"net/http"
 
 	"github.com/e-kucheriavyi/gossrng/configs"
-	"github.com/e-kucheriavyi/gossrng/pkg/articles"
-	"github.com/e-kucheriavyi/gossrng/pkg/page"
+	"github.com/e-kucheriavyi/gossrng/pkg/pages"
 	"github.com/e-kucheriavyi/gossrng/pkg/sitemap"
 	"github.com/e-kucheriavyi/gossrng/pkg/static"
 )
@@ -17,8 +16,7 @@ func main() {
 
 	sitemap.ServeSitemap()
 	static.ServeStatic()
-	page.ServePages()
-	articles.ServeArticlesList()
+	pages.ServePages()
 
 	err := http.ListenAndServe(configs.Host, nil)
 

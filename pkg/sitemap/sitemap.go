@@ -13,5 +13,7 @@ func ServeSitemap() {
 		// add all entries
 		// markup xml
 		fmt.Println("Sitemap requested")
+
+		w.WriteHeader(404)
 	})
 }
