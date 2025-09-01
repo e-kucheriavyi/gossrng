@@ -5,8 +5,6 @@ const Host = ":3030"
 const ContentDirectory = "/home/evgenii/Projects/content/content"
 const AssetsDirectory = "/home/evgenii/Projects/content/content/assets"
 
-const RootDirectory = "/home/evgenii/Projects/content/server"
-
 const WebDirectory = "./web"
 
 const StaticDirectory = "./web/static"

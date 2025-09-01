@@ -1,6 +1,7 @@
 package pages
 
 import (
+	"fmt"
 	"os"
 	"slices"
 	"strings"
@@ -104,4 +105,35 @@ func ScanAllFilepaths(root string) ([]string, error) {
 	}
 
 	return paths, nil
+}
+
+func FormatPageList() (string, error) {
+	pages, err := PreparePagesList()
+
+	if err != nil {
+		return "", err
+	}
+
+	links := []string{}
+
+	for _, v := range FilterUtilityPages(pages) {
+		links = append(links, fmt.Sprintf("<a href='%s'>%s</a>", v.Route, v.Meta["title"]))
+	}
+
+	f := Page{
+		Content: []byte(strings.Join(links, "<br>")),
+		Meta: NewMetaMap(map[string]string{
+			"title": "Список статей",
+		}),
+	}
+
+	tmp, err := ReadTemplateFile()
+
+	if err != nil {
+		return "", err
+	}
+
+	result := FormatTemplate(tmp, f)
+
+	return result, nil
 }
