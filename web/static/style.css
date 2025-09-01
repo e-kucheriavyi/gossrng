@@ -9,11 +9,6 @@
 	--border: hsl(0 0% 28%);
 	--border-muted: hsl(300 0% 18%);
 	--primary: hsl(120, 48%, 45%);
-	--secondary: hsl(320 50% 73%);
-	--danger: hsl(9 26% 64%);
-	--warning: hsl(52 19% 57%);
-	--success: hsl(146 17% 59%);
-	--info: hsl(217 28% 65%);
 	/* oklch */
 	--bg-dark: oklch(0.1 0 160);
 	--bg: oklch(0.15 0 160);
@@ -24,11 +19,6 @@
 	--border: oklch(0.4 0 160);
 	--border-muted: oklch(0.3 0 160);
 	--primary: oklch(65.215% 0.17926 143.195);
-	--secondary: oklch(0.76 0.1 340);
-	--danger: oklch(0.7 0.05 30);
-	--warning: oklch(0.7 0.05 100);
-	--success: oklch(0.7 0.05 160);
-	--info: oklch(0.7 0.05 260);
 }
 
 body, html {
@@ -86,6 +76,10 @@ pre:has(> code) {
 	border-radius: 0.5rem;
 }
 
+pre {
+	overflow-x: auto;
+}
+
 h1, h2, h3, h4 {
 	color: var(--primary);
 }
@@ -101,5 +95,10 @@ blockquote {
 
 .main img {
 	border-radius: 0.5rem;
+	max-width: 100%;
+	transition: 1s;
+}
+
+.main video {
 	max-width: 100%;
 }

@@ -40,8 +40,15 @@ func Export() error {
 func exportStatic() error {
 	fmt.Println("exporting static files...")
 
+	rootFs := os.DirFS(configs.RootStaticDirectory)
+	err := os.CopyFS(distPath+"/", rootFs)
+
+	if err != nil {
+		return err
+	}
+
 	staticFs := os.DirFS(configs.StaticDirectory)
-	err := os.CopyFS(distPath+"/static", staticFs)
+	err = os.CopyFS(distPath+"/static", staticFs)
 
 	if err != nil {
 		return err
@@ -117,5 +124,7 @@ func exportPagesList() error {
 		return err
 	}
 
-	return os.WriteFile(distPath+"/articles.html", []byte(result), 0666)
+	os.Mkdir(distPath+"/articles", 0755)
+
+	return os.WriteFile(distPath+"/articles/index.html", []byte(result), 0666)
 }

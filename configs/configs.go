@@ -9,6 +9,8 @@ const WebDirectory = "./web"
 
 const StaticDirectory = "./web/static"
 
+const RootStaticDirectory = "./web/root"
+
 const TemplatesDirectory = "./web/templates"
 
 const FallbackTitle = "Блог Жени Кучерявого"
