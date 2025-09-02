@@ -4,7 +4,7 @@ Simple app to generate and serve static content. More info in [this article (ru)
 
 ## Installation
 
-0. install the package `go install github.com/e-kucheriavyi/gossrng@latest`
+0. install the package `go install github.com/e-kucheriavyi/gossrng/cmd/gossrng@latest`
 0. initialize the project `gossrng -m init -r /path/to/source`
 0. edit `template.html` and `meta.json` as you wish
 0. You are ready to go!
