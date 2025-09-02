@@ -26,8 +26,6 @@ func main() {
 		return
 	}
 
-	fmt.Println(*dist)
-
 	switch *mode {
 	case "serve":
 		serve(*root, *port)
