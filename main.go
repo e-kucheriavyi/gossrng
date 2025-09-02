@@ -18,6 +18,7 @@ func main() {
 	mode := flag.String("m", "export", "gossrng mode. Can be `init`, `serve` or `export`(default)")
 	root := flag.String("r", "", "content directory path")
 	port := flag.String("p", ":3030", "Serving port for SSMG (SSR) mode")
+	dist := flag.String("d", "./dist", "Output directory")
 	flag.Parse()
 
 	if *root == "" {
@@ -25,12 +26,14 @@ func main() {
 		return
 	}
 
+	fmt.Println(*dist)
+
 	switch *mode {
 	case "serve":
 		serve(*root, *port)
 		return
 	case "export":
-		exportSite(*root)
+		exportSite(*root, *dist)
 		return
 	case "init":
 		initRoot(*root)
@@ -53,12 +56,12 @@ func serve(root, port string) {
 	}
 }
 
-func exportSite(root string) {
+func exportSite(root, dist string) {
 	t0 := time.Now()
 
 	fmt.Println("exporting")
 
-	err := export.Export(root)
+	err := export.Export(root, dist)
 
 	if err != nil {
 		fmt.Println(err.Error())
