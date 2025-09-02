@@ -4,12 +4,11 @@ import (
 	"os"
 	"strings"
 
-	"github.com/e-kucheriavyi/gossrng/configs"
 	"github.com/e-kucheriavyi/gossrng/pkg/mdparcer"
 )
 
-func ReadTemplateFile() (string, error) {
-	f, err := os.ReadFile(configs.TemplatesDirectory + "/content.html")
+func ReadTemplateFile(root string) (string, error) {
+	f, err := os.ReadFile(root + "/template.html")
 
 	if err != nil {
 		return "", err

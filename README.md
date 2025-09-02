@@ -4,22 +4,22 @@ Simple app to generate and serve static content. More info in [this article (ru)
 
 ## Installation
 
-0. Clone this repository
-0. Create directory for your content.
-0. Setup configs in `./configs` directory.
+0. install the package `go install github.com/e-kucheriavyi/gossrng@latest`
+0. initialize the project `gossrng -m init -r /path/to/source`
+0. edit `template.html` and `meta.json` as you wish
 0. You are ready to go!
 
 ## Usage
 
-This server supports 2 modes:
+This app supports 2 modes:
 
-### SSR mode (recomended for development)
+### SSMG (SSR) mode (recomended for development)
 
-Just run it with `go run ./cmd/gossrng/main.go serve`
+Just run it with `gossrng -m serve -r /path/to/source`
 
 ### SSG mode
 
-Build it with `go run ./cmd/gossrng/main.go export`. Your static site will be written in `./dist` directory. Copy it to your static server and that's all.
+Build it with `gossrng -m export -r /paht/to/source`. Your static site will be written in `./dist` directory. Copy it to your static server and that's all.
 
 ## Credits
 

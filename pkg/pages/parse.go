@@ -5,8 +5,8 @@ import (
 	"strings"
 )
 
-func ParsePageInfo(f []byte) (Page, error) {
-	meta := NewMetaMap(nil)
+func ParsePageInfo(root string, f []byte) (Page, error) {
+	parsedMeta := map[string]string{}
 
 	text := string(f)
 
@@ -16,6 +16,12 @@ func ParsePageInfo(f []byte) (Page, error) {
 
 	for i, v := range strings.Split(text, "\n") {
 		if i == 0 && v != "---" {
+			meta, err := NewMetaMap(root, nil)
+
+			if err != nil {
+				return Page{}, nil
+			}
+
 			return Page{
 				Content: f,
 				Meta:    meta,
@@ -43,11 +49,17 @@ func ParsePageInfo(f []byte) (Page, error) {
 		}
 
 		if len(s) == 2 {
-			meta[s[0]] = strings.Trim(s[1], " ")
+			parsedMeta[s[0]] = strings.Trim(s[1], " ")
 			continue
 		}
 
-		meta[s[0]] = strings.Trim(strings.Join(s[1:], ":"), " ")
+		parsedMeta[s[0]] = strings.Trim(strings.Join(s[1:], ":"), " ")
+	}
+
+	meta, err := NewMetaMap(root, parsedMeta)
+
+	if err != nil {
+		return Page{}, nil
 	}
 
 	return Page{

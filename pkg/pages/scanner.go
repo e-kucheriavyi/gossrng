@@ -5,8 +5,6 @@ import (
 	"os"
 	"slices"
 	"strings"
-
-	"github.com/e-kucheriavyi/gossrng/configs"
 )
 
 func IsSkipped(name string) bool {
@@ -15,8 +13,8 @@ func IsSkipped(name string) bool {
 	return slices.Contains(skiplist, name)
 }
 
-func PreparePagesList() ([]Page, error) {
-	paths, err := ScanAllFilepaths(configs.ContentDirectory)
+func PreparePagesList(root string) ([]Page, error) {
+	paths, err := ScanAllFilepaths(root)
 
 	if err != nil {
 		return []Page{}, err
@@ -25,7 +23,7 @@ func PreparePagesList() ([]Page, error) {
 	pages := make([]Page, 0, len(paths))
 
 	for _, path := range paths {
-		p, err := ReadPageFile(path)
+		p, err := ReadPageFile(root, path)
 
 		if err != nil {
 			return []Page{}, err
@@ -51,21 +49,21 @@ func FilterUtilityPages(pages []Page) []Page {
 	return filtered
 }
 
-func ReadPageFile(path string) (Page, error) {
+func ReadPageFile(root, path string) (Page, error) {
 	f, err := os.ReadFile(path)
 
 	if err != nil {
 		return Page{}, err
 	}
 
-	page, err := ParsePageInfo(f)
+	page, err := ParsePageInfo(root, f)
 
 	if err != nil {
 		return page, err
 	}
 
 	page.Filepath = path
-	page.Route = FormatFilepathToRoute(configs.ContentDirectory, path)
+	page.Route = FormatFilepathToRoute(root, path)
 
 	return page, nil
 }
@@ -106,8 +104,8 @@ func ScanAllFilepaths(root string) ([]string, error) {
 	return paths, nil
 }
 
-func FormatPageList() (string, error) {
-	pages, err := PreparePagesList()
+func FormatPageList(root string) (string, error) {
+	pages, err := PreparePagesList(root)
 
 	if err != nil {
 		return "", err
@@ -119,14 +117,20 @@ func FormatPageList() (string, error) {
 		links = append(links, fmt.Sprintf("<a href='%s'>%s</a>", v.Route, v.Meta["title"]))
 	}
 
-	f := Page{
-		Content: []byte(strings.Join(links, "<br>")),
-		Meta: NewMetaMap(map[string]string{
-			"title": "Список статей",
-		}),
+	meta, err := NewMetaMap(root, map[string]string{
+		"title": "Список статей",
+	})
+
+	if err != nil {
+		return "", err
 	}
 
-	tmp, err := ReadTemplateFile()
+	f := Page{
+		Content: []byte(strings.Join(links, "<br>")),
+		Meta:    meta,
+	}
+
+	tmp, err := ReadTemplateFile(root)
 
 	if err != nil {
 		return "", err

@@ -2,15 +2,11 @@ package pages
 
 import (
 	"net/http"
-
-	"github.com/e-kucheriavyi/gossrng/configs"
 )
 
-func ServePages() {
-	root := configs.ContentDirectory
-
+func ServePages(root string) {
 	http.HandleFunc("/articles", func(w http.ResponseWriter, r *http.Request) {
-		result, err := FormatPageList()
+		result, err := FormatPageList(root)
 
 		if err != nil {
 			w.WriteHeader(500)
@@ -44,14 +40,14 @@ func ServePages() {
 			return
 		}
 
-		page, err := ReadPageFile(filepath)
+		page, err := ReadPageFile(root, filepath)
 
 		if err != nil {
 			w.WriteHeader(500)
 			return
 		}
 
-		tmp, err := ReadTemplateFile()
+		tmp, err := ReadTemplateFile(root)
 
 		if err != nil {
 			w.WriteHeader(500)

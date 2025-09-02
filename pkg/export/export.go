@@ -5,30 +5,29 @@ import (
 	"os"
 	"strings"
 
-	"github.com/e-kucheriavyi/gossrng/configs"
 	"github.com/e-kucheriavyi/gossrng/pkg/pages"
 )
 
 const distPath = "./dist"
 
-func Export() error {
+func Export(root string) error {
 	err := os.Mkdir(distPath, 0755)
 
 	if err != nil {
 		if os.IsExist(err) {
 			os.RemoveAll(distPath)
-			return Export()
+			return Export(root)
 		}
 		return err
 	}
 
-	err = exportStatic()
+	err = exportStatic(root)
 
 	if err != nil {
 		return err
 	}
 
-	err = exportPages()
+	err = exportPages(root)
 
 	if err != nil {
 		return err
@@ -37,31 +36,24 @@ func Export() error {
 	return nil
 }
 
-func exportStatic() error {
+func exportStatic(root string) error {
 	fmt.Println("exporting static files...")
 
-	rootFs := os.DirFS(configs.RootStaticDirectory)
-	err := os.CopyFS(distPath+"/", rootFs)
+	publicFs := os.DirFS(root + "/public")
+	err := os.CopyFS(distPath+"/", publicFs)
 
 	if err != nil {
-		return err
+		fmt.Println("Error while exporting `/public` directory:", err.Error())
 	}
 
-	staticFs := os.DirFS(configs.StaticDirectory)
-	err = os.CopyFS(distPath+"/static", staticFs)
-
-	if err != nil {
-		return err
-	}
-
-	assetsFs := os.DirFS(configs.AssetsDirectory)
+	assetsFs := os.DirFS(root + "/assets")
 	err = os.CopyFS(distPath+"/assets", assetsFs)
 
 	if err != nil {
 		return err
 	}
 
-	err = exportPagesList()
+	err = exportPagesList(root)
 
 	if err != nil {
 		return err
@@ -70,9 +62,7 @@ func exportStatic() error {
 	return nil
 }
 
-func exportPages() error {
-	root := configs.ContentDirectory
-
+func exportPages(root string) error {
 	fmt.Println("exporting pages...")
 
 	paths, err := pages.ScanAllFilepaths(root)
@@ -81,14 +71,14 @@ func exportPages() error {
 		return err
 	}
 
-	tmp, err := pages.ReadTemplateFile()
+	tmp, err := pages.ReadTemplateFile(root)
 
 	if err != nil {
 		return err
 	}
 
 	for _, v := range paths {
-		page, err := pages.ReadPageFile(v)
+		page, err := pages.ReadPageFile(root, v)
 
 		if err != nil {
 			return err
@@ -96,7 +86,7 @@ func exportPages() error {
 
 		formatted := pages.FormatTemplate(tmp, page)
 
-		newPath := strings.Replace(page.Filepath, configs.ContentDirectory, distPath, 1)
+		newPath := strings.Replace(page.Filepath, root, distPath, 1)
 		newPath = strings.Replace(newPath, ".md", ".html", 1)
 
 		s := strings.Split(newPath, "/")
@@ -115,10 +105,10 @@ func exportPages() error {
 	return nil
 }
 
-func exportPagesList() error {
+func exportPagesList(root string) error {
 	fmt.Println("exporting pages list...")
 
-	result, err := pages.FormatPageList()
+	result, err := pages.FormatPageList(root)
 
 	if err != nil {
 		return err

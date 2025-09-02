@@ -8,7 +8,9 @@ import (
 )
 
 func TestParsePageInfoMeta(t *testing.T) {
-	f, err := os.ReadFile("./root/larana.md")
+	root := "./root"
+
+	f, err := os.ReadFile(root + "/larana.md")
 
 	if err != nil {
 		t.Error(err.Error())
@@ -22,7 +24,7 @@ func TestParsePageInfoMeta(t *testing.T) {
 		"date":        "2025-01-01",
 	}
 
-	result, err := pages.ParsePageInfo(f)
+	result, err := pages.ParsePageInfo(root, f)
 
 	if err != nil {
 		t.Error(err.Error())
@@ -51,22 +53,24 @@ func matchMeta(a, b map[string]string) bool {
 }
 
 func TestParsePageInfoContent(t *testing.T) {
-	f1, err := os.ReadFile("./root/larana.md")
+	root := "./root"
+
+	f1, err := os.ReadFile(root + "/larana.md")
 
 	if err != nil {
 		t.Error(err.Error())
 		return
 	}
 
-	f2, err := os.ReadFile("./root/no-meta-larana.md")
+	f2, err := os.ReadFile(root + "/no-meta-larana.md")
 
 	if err != nil {
 		t.Error(err.Error())
 		return
 	}
 
-	r1, _ := pages.ParsePageInfo(f1)
-	r2, _ := pages.ParsePageInfo(f2)
+	r1, _ := pages.ParsePageInfo(root, f1)
+	r2, _ := pages.ParsePageInfo(root, f2)
 
 	r1Content := string(r1.Content)
 	r2Content := string(r2.Content)
